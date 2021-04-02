@@ -5,9 +5,12 @@ metadata:
   labels:
     app: test-app
     type: frontend
+  annotations:
+    testFiled: test
 spec:
   containers:
   - name: nginx-container
     image: nginx
     ports:
       - containerPort: 80
+  nodeName: node01
