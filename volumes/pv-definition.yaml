@@ -4,9 +4,10 @@ metadata:
   name: pv-vol1
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   capacity:
-    storage: 1Gi
+    storage: 100Mi
   hostPath:
-    path: /data
-  persistentVolumeReclaimPolicy: Delete
+    path: /pv/log
+    type: DirectoryOrCreate
+  persistentVolumeReclaimPolicy: Retain
