@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-ingress-controller
+spec:
+  template:
+    metadata:
+      labels:
+        name: nginx-ingress
+    spec:
+      containers:
+      - name: nginx-ingress-controller
+        image: quay.io/kubernetes-ingress-controller/nginx-igress-controller:0.21.0
+        args:
+        - /nginx-ingress-controller
+        - --config-map=$(POD_NAMESPACE)/nginx-configuration
+        - --default-backend-service=app-space/default-http-backend
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 443
+          name: https
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nginx-ingress
